@@ -1,0 +1,1 @@
+MOV A, 40H    ; Look at address 40H and put its contents into A
