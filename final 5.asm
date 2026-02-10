@@ -101,55 +101,8 @@ COMPLETED:
     ; Program complete - infinite loop
     SJMP $
 
-; -------------------------------------------------------------
-; ALTERNATIVE VERSION (More optimized, doesn't clear source)
-; -------------------------------------------------------------
-; This version doesn't clear source as it copies, only fills end
-; Uncomment to use instead
 
-;COMPACT_ALT:
-;    MOV R0, #40H    ; Source pointer (reads all data)
-;    MOV R1, #40H    ; Destination pointer (writes valid data)
-;    MOV R2, #32     ; 32 bytes total
-;
-;SCAN_LOOP_ALT:
-;    MOV A, @R0      ; Get current byte
-;    CJNE A, #0FFH, VALID_BYTE
-;    
-;    ; Invalid byte (FFH) - skip
-;    SJMP NEXT_BYTE_ALT
-;
-;VALID_BYTE:
-;    ; Copy valid byte if source != destination
-;    MOV A, R0
-;    XRL A, R1
-;    JZ SAME_PTR     ; If equal, byte already in place
-;    
-;    MOV @R1, A      ; Actually need to get byte again
-;    MOV A, @R0      ; Re-get the byte
-;    MOV @R1, A      ; Store at destination
-;
-;SAME_PTR:
-;    INC R1          ; Advance destination
-;
-;NEXT_BYTE_ALT:
-;    INC R0          ; Next source byte
-;    DJNZ R2, SCAN_LOOP_ALT
-;
-;; Fill remaining with zeros
-;FILL_ALT:
-;    MOV A, #60H
-;    CLR C
-;    SUBB A, R1
-;    JZ DONE_ALT
-;    
-;    MOV R2, A
-;FILL_LOOP_ALT:
-;    MOV @R1, #00H
-;    INC R1
-;    DJNZ R2, FILL_LOOP_ALT
-;
-;DONE_ALT:
 ;    SJMP $
+
 
 END
